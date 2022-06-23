@@ -20,6 +20,7 @@ class TowerEventsService{
   async createEvent(towerEventData) {
     const towerEvent = await dbContext.TowerEvents.create(towerEventData)
     await towerEvent.populate('creator', 'name picture')
+    
     return towerEvent
   }
   async update(update) {

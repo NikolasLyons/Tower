@@ -22,10 +22,16 @@ import { BadRequest } from "../utils/Errors"
      const ticket = await dbContext.Tickets.create(ticketData)
      await ticket.populate('account', 'name picture')
      await ticket.populate('event')
+     
 
      const towerEvent = await dbContext.TowerEvents.findById(ticketData.eventId)
+     if(towerEvent.capacity == 0){
+      throw new BadRequest('no more room')
+    }
      
       towerEvent.capacity --
+
+
      await towerEvent.save()
      
      return ticket
