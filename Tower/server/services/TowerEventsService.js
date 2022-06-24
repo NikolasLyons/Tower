@@ -18,6 +18,10 @@ class TowerEventsService{
     return towerEvent
   }
   async createEvent(towerEventData) {
+    if(new Date(towerEventData.startDate) < new Date()){
+      throw new BadRequest('date has passed')
+
+    }
     const towerEvent = await dbContext.TowerEvents.create(towerEventData)
     await towerEvent.populate('creator', 'name picture')
     
