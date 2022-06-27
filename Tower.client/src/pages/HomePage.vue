@@ -3,7 +3,7 @@
   <div class="row p-3"  >
     <div class="col-12 shadow bg-img text-light" style="background-image: url('https://idahonews.com/resources/media/23a53fce-03ba-41ec-bb3e-7173acbc23d5-large16x9_Movie_Theater.jpg?1594266488683');">
       <div class="row ">
-        <div class="col-4 d-flex flex-column">
+        <div class="col-4 d-flex flex-column ">
           <h2>Get ahead of the scalpers.</h2>
           <h2>Reserve your seat now with</h2>
           <h2>real events for real people.</h2>

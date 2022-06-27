@@ -2,23 +2,25 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
-        <div class="row m-2 rounded shadow" style="background-color: red;">
-         <div class="col-12 text-end">°°°</div>
+        <div class="row m-2 rounded shadow" style="background-color: yellow;">
+         <div class="col-12 text-end">
+          <button class="btn btn-danger" title="Cancel" @click="cancelEvent">CANCEL</button>
+         </div>
          <div class="row">
-           <div class="col-4 p-3">
+           <div  class="col-4 p-3">
              <img class="img-fluid" :src="activeTowerEvent.coverImg" alt="">
            </div>
            <div class="col-8">
             <div class="row ">
               <div class="col-12 d-flex justify-content-between">
                 <h3>{{activeTowerEvent.name}}</h3>
-                <p>{{activeTowerEvent.startDate}}</p>
+                <p>{{formatDate(activeTowerEvent.startDate)}}</p>
               </div>
             </div>
             <div class="row">
               <div class="col-12 d-flex justify-content-between">
                 <h5>{{activeTowerEvent.location}}</h5>
-                <p>start time?</p>
+               
               </div>
             </div>
             <div class="row">
@@ -27,9 +29,15 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-12 d-flex justify-content-between p-2">
-                <h5>{{activeTowerEvent.capacity}} spots left</h5>
-                <button class="btn btn-outline-warning" @click="createTicket">ATTEND <i class="mdi mdi-account-group"></i></button>
+              <div v-if="activeTowerEvent.isCanceled">
+<p class="bg-danger text-white">EVENT CANCELED</p>
+              </div>
+              <div v-else class="col-12 d-flex justify-content-between p-2">
+                <h5 v-if="activeTowerEvent.capacity >=1 ">{{activeTowerEvent.capacity}} spots left</h5>
+                <h5 v-else class="no-spots"> 0 spots left</h5>
+                <button v-if="activeTowerEvent.capacity >= 1 " class="btn btn-outline-primary" @click="createTicket">ATTEND <i class="mdi mdi-account-group"></i></button>
+                 <button v-else class="btn btn-outline-pr disabled" >ATTEND <i class="mdi mdi-account-group"></i></button>
+                
               </div>
             </div>
            </div>
@@ -38,7 +46,7 @@
         <p m-2>see who is attending</p>
         <div class="row m-2" style="background-color: red;">
           <div class="col-12">
-            <img class="img-fluid attending-img" v-for="t in tickets" :key="t.id" :src="t.account.picture" alt="">
+            <img :title="t.account.name" class="img-fluid attending-img" aria-labelledby="nik" v-for="t in tickets" :key="t.id" :src="t.account.picture" alt="">
           </div>
         </div> 
         <div class="row justify-content-center">
@@ -103,6 +111,9 @@ export default {
       activeTowerEvent: computed(()=> AppState.activeTowerEvent),
       comments: computed(()=> AppState.comments),
       tickets: computed(()=> AppState.tickets),
+      formatDate(rawDate){
+        return new Date(rawDate).toLocaleDateString()
+      },
       async createComment(){
         try {
           commentData.value.eventId = route.params.id
@@ -131,6 +142,18 @@ export default {
           logger.error(error)
           Pop.toast(error.message, 'error')
         }
+      },
+
+      async cancelEvent(){
+        try {
+          if(await Pop.confirm('are you sure you want to Cancel Event')){
+            await towerEventsService.cancelEvent(route.params.id)
+           
+          }
+        } catch (error) {
+          logger.error(error)
+          Pop.toast(error.message, 'error')
+        }
       }
     }
   }
@@ -142,6 +165,10 @@ export default {
 .attending-img{
   height: 40px;
   border-radius: 50%;
+}
+
+.no-spots{
+  color: red;
 }
 
 </style>

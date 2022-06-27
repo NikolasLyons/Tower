@@ -16,6 +16,7 @@ import { BadRequest } from "../utils/Errors"
    async getEventTickets(eventId) {
     const tickets = await dbContext.Tickets.find({eventId})
     .populate('account')
+    .populate('event')
     return tickets
   }
    async createTicket(ticketData) {

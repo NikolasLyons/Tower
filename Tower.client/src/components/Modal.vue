@@ -3,7 +3,7 @@
   
   
   <!-- Modal -->
-  <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal fade" id="createEvent" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -48,6 +48,7 @@
 
 <script>
 import { propsToAttrMap } from '@vue/shared'
+import { Modal } from 'bootstrap'
 import { computed, ref, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 import { AppState } from '../AppState'
@@ -56,13 +57,12 @@ import { logger } from '../utils/Logger'
 import Pop from '../utils/Pop'
 
 export default {
-  props:{towerEvent:{type: Object, required:true}},
   setup(props){
     const router = useRouter()
     let towerEventData = ref({})
-    watchEffect(()=>{
-      towerEventData.value = {...props.towerEvent}
-    })
+    // watchEffect(()=>{
+    //   towerEventData.value = {...props.towerEvent}
+    // })
     return {
       towerEventData,
       activeTowerEvent: computed(()=> AppState.activeTowerEvent),

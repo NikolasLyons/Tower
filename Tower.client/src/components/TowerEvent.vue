@@ -9,12 +9,16 @@
             <div class="col-12">
               <p>{{towerEvent.name}}</p>
               <p>{{towerEvent.location}}</p>
-              <p>{{towerEvent.startDate}}</p>
+              <p>{{formatDate(towerEvent.startDate)}}</p>
             </div>
           </div>
           <div class="row">
             <div class="col-12 text-end">
-              <p><span>{{towerEvent.capacity}}</span> Spots Left</p>
+            
+              <p v-if="towerEvent.capacity >=1 && !towerEvent.isCanceled"><span>{{towerEvent.capacity}}</span> Spots Left</p>
+              <p v-else-if="towerEvent.isCanceled" class="sold-out">Canceled</p>
+              
+              <p v-else class="sold-out">Sold Out</p>
             </div>
           </div>
 
@@ -41,6 +45,9 @@ export default {
           params: {id: props.towerEvent.id}
 
         })
+      },
+      formatDate(rawDate){
+        return new Date(rawDate).toLocaleDateString()
       }
     }
   }
@@ -52,6 +59,9 @@ export default {
 
 .hoverable{
   cursor: pointer;
+}
+.sold-out{
+  color: red;
 }
 
 </style>

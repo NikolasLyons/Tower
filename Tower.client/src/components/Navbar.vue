@@ -19,13 +19,8 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
-          >
-            About
-          </router-link>
-          <button v-if="account.id" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modelId">Create Event</button>
+          
+          <button v-if="account.id" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#createEvent">Create Event</button>
           <Modal />
         </li>
       </ul>
@@ -40,7 +35,7 @@ import { computed } from 'vue';
 import { AppState } from '../AppState';
 
 export default {
-  props:{towerEvent:{type: Object, required:true}},
+  
   setup() {
     return {
       account: computed(()=> AppState.account)
