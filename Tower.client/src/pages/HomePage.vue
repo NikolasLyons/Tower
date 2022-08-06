@@ -81,6 +81,7 @@ export default {
   height: 35vh;
   background-size: cover;
   background-position: center;
+  object-fit: cover;
 }
 
 </style>
